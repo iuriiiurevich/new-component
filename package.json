@@ -24,7 +24,8 @@
   "author": "Joshua Comeau",
   "license": "MIT",
   "bin": {
-    "new-component": "./src/index.js"
+    "new-component": "./src/index.js",
+    "newc": "./src/index.js"
   },
   "dependencies": {
     "chalk": "4",
