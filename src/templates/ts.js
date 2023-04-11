@@ -1,5 +1,5 @@
 import * as React from 'react';
 
-export COMPONENT_NAME() {
+export function COMPONENT_NAME() {
   return <div></div>;
 }
