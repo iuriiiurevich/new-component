@@ -1,4 +1,4 @@
-module.exports = [
+export const AFFIRMATIONS = [
   'Thanks for using new-component!',
   'Thanks for using new-component!',
   'Thanks for using new-component!',
