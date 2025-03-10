@@ -32,6 +32,7 @@ export const getConfig = async () => {
   const defaults = {
     lang: 'js',
     dir: 'src/components',
+    fileNameCase: 'pascal',
   };
 
   const globalOverrides = await requireOptional(`/${home}/.new-component-config.json`);
@@ -91,16 +92,32 @@ const logComponentLang = (selected) =>
     )
     .join('  ');
 
-export const logIntro = ({ name, dir, lang }) => {
+const caseNames = {
+  pascal: 'PascalCase',
+  kebab: 'kebab-case',
+};
+
+const logCaseFormat = (selected) =>
+  ['pascal', 'kebab']
+    .map((option) =>
+      option === selected
+        ? `${chalk.bold.rgb(...colors.blue)(caseNames[option])}`
+        : `${chalk.rgb(...colors.darkGray)(caseNames[option])}`,
+    )
+    .join('  ');
+
+export const logIntro = ({ name, dir, lang, case: caseFormat }) => {
   console.info('\n');
   console.info(`✨  Creating the ${chalk.bold.rgb(...colors.gold)(name)} component ✨`);
   console.info('\n');
 
   const pathString = chalk.bold.rgb(...colors.blue)(dir);
   const langString = logComponentLang(lang);
+  const caseString = logCaseFormat(caseFormat);
 
   console.info(`Directory:  ${pathString}`);
   console.info(`Language:   ${langString}`);
+  console.info(`File Names: ${caseString}`);
   console.info(chalk.rgb(...colors.darkGray)('========================================='));
 
   console.info('\n');

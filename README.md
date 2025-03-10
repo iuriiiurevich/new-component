@@ -99,6 +99,22 @@ Command line: `--lang <value>` or `-l <value>`
 JSON config: `{ "lang": <value> }`
 <br />
 
+### File Name Case
+
+Controls the case format for component filenames and directory names.
+
+- `pascal` — uses PascalCase for filenames and directories like `MyComponent/MyComponent.jsx` (default).
+- `kebab` — uses kebab-case for filenames and directories like `my-component/my-component.jsx`.
+
+**Note:** The input component name must always be provided in PascalCase (e.g., `MyComponent`), regardless of the chosen filename case format.
+
+**Usage:**
+
+Command line: `--case <value>` or `-c <value>`
+
+JSON config: `{ "fileNameCase": <value> }`
+<br />
+
 ### Directory
 
 Controls the desired directory for the created component. Defaults to `src/components`

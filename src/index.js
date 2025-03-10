@@ -12,7 +12,12 @@ import {
   logConclusion,
   logError,
 } from './helpers.js';
-import { mkDirPromise, readFilePromiseRelative, writeFilePromise } from './utils.js';
+import {
+  mkDirPromise,
+  readFilePromiseRelative,
+  writeFilePromise,
+  formatComponentName,
+} from './utils.js';
 
 const program = new Command();
 
@@ -37,11 +42,20 @@ program
     'Path to the "components" directory (default: "src/components")',
     config.dir,
   )
+  .option(
+    '-c, --case <caseFormat>',
+    'File and directory name case format: "pascal" or "kebab" (default: "pascal")',
+    /^(pascal|kebab)$/i,
+    config.fileNameCase,
+  )
   .parse(process.argv);
 
 const [componentName] = program.args;
 
 const options = program.opts();
+
+// For file/directory names, we use the configured case format
+const fileName = formatComponentName(componentName, options.case);
 
 const fileExtension = options.lang === 'js' ? 'jsx' : 'tsx';
 const indexExtension = options.lang === 'js' ? 'js' : 'ts';
@@ -50,24 +64,33 @@ const indexExtension = options.lang === 'js' ? 'js' : 'ts';
 const templatePath = `./templates/${options.lang}.jsx`;
 
 // Get all of our file paths worked out, for the user's project.
-const componentDir = `${options.dir}/${componentName}`;
-const filePath = `${componentDir}/${componentName}.${fileExtension}`;
+const componentDir = `${options.dir}/${fileName}`;
+const filePath = `${componentDir}/${fileName}.${fileExtension}`;
 const indexPath = `${componentDir}/index.${indexExtension}`;
 
 // Our index template is super straightforward, so we'll just inline it for now.
 const indexTemplate = await prettify(`\
-export * from './${componentName}';
+export * from './${fileName}';
 `);
 
 logIntro({
   name: componentName,
   dir: componentDir,
   lang: options.lang,
+  case: options.case,
 });
 
 // Check if componentName is provided
 if (!componentName) {
-  logError(`Sorry, you need to specify a name for your component like this: new-component <name>`);
+  logError(`Sorry, you need to specify a name for your component like this: new-component <n>`);
+  process.exit(0);
+}
+
+// Check if componentName is in PascalCase
+if (!/^[A-Z][a-zA-Z0-9]*$/.test(componentName)) {
+  logError(
+    `Component name must be in PascalCase format. Example: "MyComponent", not "myComponent" or "my-component".`,
+  );
   process.exit(0);
 }
 

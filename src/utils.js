@@ -59,3 +59,15 @@ export const readFilePromiseRelative = (fileLocation) =>
 export const sample = (arr) => {
   return arr[Math.floor(Math.random() * arr.length)];
 };
+
+// Convert component name to appropriate case format
+export const formatComponentName = (name, caseFormat) => {
+  // Input is always in PascalCase (e.g., "MyComponent")
+  if (caseFormat === 'kebab') {
+    // Convert PascalCase to kebab-case
+    return name.replace(/([a-z0-9])([A-Z])/g, '$1-$2').toLowerCase();
+  }
+
+  // Already in PascalCase or caseFormat is 'pascal', return as is
+  return name;
+};
