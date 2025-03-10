@@ -31,14 +31,10 @@ This project uses an opinionated file structure discussed in this blog post: [**
 
 ## Quickstart
 
-Install via NPM:
+Install via PNPM:
 
 ```bash
-# Using Yarn:
-$ yarn global add new-component
-
-# or, using NPM
-$ npm i -g new-component
+pnpm add -g github:iuriiiurevich/new-component
 ```
 
 `cd` into your project's directory, and try creating a new component:
