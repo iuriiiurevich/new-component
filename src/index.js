@@ -120,7 +120,7 @@ mkDirPromise(componentDir)
   )
   .then(async (template) =>
     // Format it using prettier, to ensure style consistency, and write to file.
-    writeFilePromise(filePath, await prettify(template)),
+    writeFilePromise(filePath, await prettify(template, fileExtension)),
   )
   .then((template) => {
     logItemCompletion('Component built and saved to disk.');
@@ -128,7 +128,7 @@ mkDirPromise(componentDir)
   })
   .then(async (template) =>
     // We also need the `index.js` file, which allows easy importing.
-    writeFilePromise(indexPath, await prettify(indexTemplate)),
+    writeFilePromise(indexPath, await prettify(indexTemplate, indexExtension)),
   )
   .then((template) => {
     logItemCompletion('Index file built and saved to disk.');

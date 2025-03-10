@@ -52,12 +52,14 @@ export const buildPrettifier = async () => {
     trailingComma: 'es5',
   };
 
-  // Prettier warns if we don't specify a parser or a file path.
-  // TODO: Maybe we should create the file first, so that it can
-  // serve as the file path?
-  config.parser = config.parser || 'babel';
+  return (text, fileExtension = 'js') => {
+    const parser = config.parser || (fileExtension.startsWith('ts') ? 'typescript' : 'babel');
 
-  return (text) => prettier.format(text, config);
+    return prettier.format(text, {
+      ...config,
+      parser,
+    });
+  };
 };
 
 export const createParentDirectoryIfNecessary = async (dir) => {
